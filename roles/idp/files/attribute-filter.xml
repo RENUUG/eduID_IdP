@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Deployers should refer to the documentation for a complete list of components and their options.
+  https://wiki.shibboleth.net/confluence/display/IDP30/AttributeFilterConfiguration
+  https://wiki.shibboleth.net/confluence/display/SHIB2/IdPAddAttributeFilter
+-->
+<AttributeFilterPolicyGroup id="ShibbolethFilterPolicy"
+        xmlns="urn:mace:shibboleth:2.0:afp"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:mace:shibboleth:2.0:afp http://shibboleth.net/schema/idp/shibboleth-afp.xsd">
+
+
+   <AttributeFilterPolicy id="filesender.renu.ac.ug">
+        <PolicyRequirementRule xsi:type="Requester" value="https://filesender.renu.ac.ug" />
+
+        <AttributeRule attributeID="mail">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+        <AttributeRule attributeID="displayName">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="uid">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+     </AttributeFilterPolicy>
+
+
+   <AttributeFilterPolicy id="meetings.renu.ac.ug">
+        <PolicyRequirementRule xsi:type="Requester" value="https://meetings.renu.ac.ug/shibboleth-sp2" />
+
+        <AttributeRule attributeID="mail">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+        <AttributeRule attributeID="cn">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="uid">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+    </AttributeFilterPolicy>
+
+    <AttributeFilterPolicy id="releasetoEdugain">
+        <PolicyRequirementRule xsi:type="ANY" />
+
+        <AttributeRule attributeID="eduPersonPrincipalName">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+        <AttributeRule attributeID="eduPersonAffiliation">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+        <AttributeRule attributeID="eduPersonScopedAffiliation">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+        <AttributeRule attributeID="mail">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+        <AttributeRule attributeID="cn">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="displayName">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="surname">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="givenName">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="schacGender">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="schacHomeOrganization">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="schacHomeOrganizationType">
+          <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+
+        <AttributeRule attributeID="eduPersonEntitlement">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+        <AttributeRule attributeID="eduPersonTargetedID">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+
+     </AttributeFilterPolicy> 
+
+
+    <!-- Release displayName to any SP in your federation -->
+    <AttributeFilterPolicy id="releaseToAnySpInRIF">
+      <PolicyRequirementRule
+         xsi:type="InEntityGroup"
+         groupID="rif.renu.ac.ug"/>
+
+        <AttributeRule attributeID="displayName">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+    </AttributeFilterPolicy>
+
+    <!-- Release displayName to anyone NOT RECOMMENDED -->
+    <!-- 
+    <AttributeFilterPolicy id="releaseToAnyone">
+     
+      <PolicyRequirementRule xsi:type="ANY"/>
+     
+      <AttributeRule attributeID="displayName">
+        <PermitValueRule xsi:type="ANY"/>
+      </AttributeRule>
+    </AttributeFilterPolicy>
+    -->
+
+</AttributeFilterPolicyGroup>
+

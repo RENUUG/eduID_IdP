@@ -1,0 +1,16 @@
+#Edit below, replace idp.example.ac.ug with your server FQDN
+shibboleth_idp ansible_host=idp.example.ac.ug
+
+[<institution>:children]
+idp
+
+[idp]
+shibboleth_idp
+
+[idp:vars]
+ansible_user=ubuntu
+ansible_ssh_pass=<the user password>
+ansible_sudo_pass=<the user password>
+#I would recommend using keys and passwordless sudo access
+#Only uncomment this if you are using private keys in a different location
+#private_key_file=/path/to/private_key_file

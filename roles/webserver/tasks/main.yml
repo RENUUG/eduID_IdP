@@ -1,0 +1,52 @@
+# Certbot
+- name: Install Prerequisites for Certbot
+  apt:
+    name: software-properties-common
+
+- name: Add PPA repository for Certbot
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+
+- name: Install Certbot
+  apt:
+    name: python-certbot-apache
+    update_cache: yes
+
+# 3. Apache HTTP Server installation
+- name: Install apache
+  package: name={{ webserver.name }} state=installed
+  # apt: pkg=apache2 update_cache=yes cache_valid_time=3600
+
+- name: Install mod_ssl on RedHat
+  package: name=mod_ssl state=installed
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+- name: Copy apache2 config file
+  template: >
+    src=templates/apache2.conf.j2
+    dest="{{ webserver.conf_path }}/{{ idp.fqdn }}.conf"
+  notify: restart apache
+
+- name: Disable default configuration
+  command: a2dissite 000-default
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Enable IdP configuration
+  command: a2ensite {{ idp.fqdn }}
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Enable SSL and AJP Proxy modules
+  command: a2enmod ssl proxy_ajp rewrite
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Copy index with tasks
+  template: >
+    src=index.html.j2
+    dest=/var/www/html/index.html
+  notify: restart apache
+
+- name: Install Certificate with Let's Encrypt
+  command: "certbot --apache -n -d {{ idp.fqdn }} --agree-tos --email {{ technical_email }}"

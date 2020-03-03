@@ -1,0 +1,47 @@
+organisation:
+  name: Example Institution in Full
+  url: https://test.renu.ac.ug
+  type: INST
+  acroynm: RENU
+  net: network_subnet #Like 196.43.128.0/24
+
+idp:
+  fqdn: idp.example.ac.ug
+  entity_id: https://idp.test.renu.ac.ug/idp/shibboleth
+  scope: test.renu.ac.ug
+  displayname: Identity Provider for the Example University
+  description: IdP for students and staff at the Example University
+  #Add your own logo in roles/idp/files (Ensure the names corresponds with below)
+  logo: logo.png
+
+federations:
+    # Main Federation
+    -
+      name: RIF
+      registration_authority: https://rif.renu.ac.ug
+      metadata_url: https://rif.renu.ac.ug/rr/metadata/federation/RIF/metadata.xml
+      metadata_file: metadata.xml
+      disregard_tsl_certificate: false
+
+support_first_name: Support
+support_last_name: Mail
+support_email: support@example.net
+admin_first_name: Admin
+admin_last_name: Mail
+admin_email: eduid@example.net
+technical_first_name: Technical
+technical_last_name: Mail
+technical_email: eduid@example.net
+
+
+## Backends ##
+
+ldap:
+  url: ldap.example.net
+  use_ssl: false
+  # ldap or ldaps
+  protocol: ldap
+  # Defaults: 389 for ldap; 636 for ldaps
+  port: 389
+  # Distinguished Name under which user information can be found
+  base_dn: ou=people,dc=example,dc=net

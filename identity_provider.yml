@@ -1,0 +1,34 @@
+- name: Gather OS specific variables
+  hosts: idp
+  become: True
+  gather_facts: True
+  tasks:
+    - include_vars: "{{ item }}"
+      with_first_found:
+        - "group_vars/distributions/{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+        - "group_vars/distributions/{{ ansible_distribution }}-{{ ansible_distribution_release}}.yml"
+        - "group_vars/distributions/{{ ansible_distribution }}.yml"
+      tags: vars
+
+- name: Install Shibboleth IdP v3.4 on ubuntu 16 for RENU member institutions
+  hosts: idp
+  become: True
+  vars_files:
+    - group_vars/secrets.yml
+    - group_vars/<institution>
+  roles:
+    - idp
+#    - webserver. All the others have been eliminated to focus only
+#    - db
+#    - appserver
+#    - idp
+
+  handlers:
+    - name: restart apache
+      service: name=apache2 state=restarted
+
+    - name: restart tomcat
+      service: name=tomcat{{ tomcat.version }} state=restarted
+
+    - name: restart postgres
+      service: name=postgresql state=restarted

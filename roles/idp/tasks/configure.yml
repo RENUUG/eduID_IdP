@@ -1,0 +1,66 @@
+- name: Copy signing cert to this machine, if it exists
+  fetch:
+    src: "{{ idp_home }}/credentials/idp.crt"
+    dest: roles/idp/files/{{ idp.fqdn }}_idp.crt
+    flat: yes
+
+- name: Copy signing key to this machine, if it exists
+  fetch:
+    src: "{{ idp_home }}/credentials/idp.key"
+    dest: roles/idp/files/{{ idp.fqdn }}_idp.key
+    flat: yes
+
+- name: Copy index with tasks
+  template: >
+    src=index.html.j2
+    dest=/var/www/html/index.html
+  notify: restart apache
+
+- name: Copy global.xml
+  copy:
+    src: global.xml
+    dest: "{{ idp_home }}/conf"
+
+- name: Copy IdP properties
+  template: >
+    src=idp.properties.j2
+    dest={{ idp_home }}/conf/idp.properties
+
+- name: Copy IdP metadata.xml
+  template: >
+    src=idp-metadata.xml.j2
+    dest={{ idp_home }}/metadata/idp-metadata.xml
+
+- name: Copy metadata providers
+  copy: >
+    src=metadata-providers.xml
+    dest={{ idp_home }}/conf/metadata-providers.xml
+
+
+- name: Copy Federation Metadata signer certificate
+  copy: >
+    src=rif.crt
+    dest={{ idp_home }}/credentials/rif.crt
+  notify: restart tomcat
+
+- name: Copy eduGAIN Metadata signer certificate
+  copy: >
+    src=mds.cer
+    dest={{ idp_home }}/credentials/mds.cer
+  notify: restart tomcat
+
+- name: Download Metadata Backup File from RR
+  get_url: >
+    url={{ federations[0].metadata_url }}
+    validate_certs=no
+    dest={{ idp_home }}/metadata/{{ federations[0].metadata_file }}
+    owner={{ tomcat.user }}
+  notify: restart tomcat
+
+- name: Download eduGAIN Metadata Backup File(Big File, Please wait)
+  get_url: >
+    url="http://edugain.cdn.samlbits.net"
+    validate_certs=no
+    dest={{ idp_home }}/metadata/edugain-metadata.xml
+    owner={{ tomcat.user }}
+  notify: restart tomcat

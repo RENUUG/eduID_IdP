@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Deployers should refer to the documentation for a complete list of components and their options.
+  https://wiki.shibboleth.net/confluence/display/IDP30/AttributeFilterConfiguration
+  https://wiki.shibboleth.net/confluence/display/SHIB2/IdPAddAttributeFilter
+-->
+<AttributeFilterPolicyGroup id="ShibbolethFilterPolicy"
+        xmlns="urn:mace:shibboleth:2.0:afp"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:mace:shibboleth:2.0:afp http://shibboleth.net/schema/idp/shibboleth-afp.xsd">
+
+{% for provider in service_providers %}
+
+  <AttributeFilterPolicy id="{{ provider.name }}">
+
+    <PolicyRequirementRule xsi:type="Requester" value="{{ provider.entity_id }}" />
+
+    {% for attribute in provider.attributes %}
+    <AttributeRule attributeID="{{ attribute }}">
+      <PermitValueRule xsi:type="ANY" />
+    </AttributeRule>
+    {% endfor %} 
+  </AttributeFilterPolicy>
+
+{% endfor %}
+
+    <!-- Release displayName to any SP in your federation -->
+    <!-- 
+    <AttributeFilterPolicy id="releaseToAnySpInYourFederation">
+      <PolicyRequirementRule
+         xsi:type="InEntityGroup"
+         groupID="{{ federations[0].name }}.ubuntunet.net"/>
+
+        <AttributeRule attributeID="displayName">
+            <PermitValueRule xsi:type="ANY" />
+        </AttributeRule>
+    </AttributeFilterPolicy>
+    -->
+
+
+    <!-- Release displayName to anyone NOT RECOMMENDED -->
+    <!-- 
+    <AttributeFilterPolicy id="releaseToAnyone">
+     
+      <PolicyRequirementRule xsi:type="ANY"/>
+     
+      <AttributeRule attributeID="displayName">
+        <PermitValueRule xsi:type="ANY"/>
+      </AttributeRule>
+    </AttributeFilterPolicy>
+    -->
+
+</AttributeFilterPolicyGroup>

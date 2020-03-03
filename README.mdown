@@ -1,0 +1,107 @@
+# Ansible Playbook for Shibboleth Identity Provider (IdP) Ubuntu 16.04
+
+## Prerequisites
+Ensure that the server has a FQDN in DNS and can be accessed from outside your LAN.
+Commands preceded by $ require normal user privileges and in most of the doc the ubuntu user.
+Commands preceded by # are root privileged. 
+
+### Update the repos and other packages
+      $ sudo apt-get update && sudo apt-get upgrade -y
+
+### Reboot the server
+      $ sudo reboot
+
+### Add a user ubuntu (Ensure that the user ubuntu is a sudoer/administrative user)
+      $ sudo adduser ubuntu
+
+### Login again as Ubuntu to the server, and enter the root prompt with the command below:
+
+      $ sudo -i
+
+### Generate the SSH keys (Go with the defaults)
+
+      # ssh-keygen -t rsa
+
+### Enable password-less login for the ubuntu user
+
+      # visudo
+
+### Add the following line to the file
+
+      ubuntu ALL=(ALL) NOPASSWD:ALL
+
+### Exit the root prompt and as the ubuntu user; For keygen, use the defaults
+
+      $ ssh-keygen -t rsa
+      $ ssh-copy-id ubuntu@localhost (This will prompt you for the ubuntu user password)
+
+
+## Install ansible
+
+      $ sudo apt-get update
+      $ sudo apt-get install software-properties-common
+      $ sudo apt-add-repository ppa:ansible/ansible
+      $ sudo apt-get update
+      $ sudo apt-get install ansible
+
+## IdP Installation
+
+#Skip this part
+#* Clone the repository, replace <institution> with the actual name of your institution
+#
+#        $ git clone  https://github.com/mwotil/eduID_IdentityProvider.git <institution>-idp
+#        $ cd <institution>-idp
+
+##  Use the scripts already available, the above step was left behind in respect to the initial creator of these scripts
+
+### Inventory File
+
+Create the inventory file for your institution, for more information: http://docs.ansible.com/ansible/intro_inventory.html
+
+        $ cp inventories/template inventories/<institution>
+
+Open the inventory file with your favorite editor and change the ansible_host and ansible_user to your server environment. Don't forget to again replace <institution>.
+
+### Variables File
+
+Create the variables file for your institution, more information: http://docs.ansible.com/ansible/playbooks_variables.html
+
+        $ cp group_vars/template group_vars/<institution>
+
+Open the variable files in your favorite editor and adapt the values to your setup.
+
+
+### Secrets File
+
+Some values - passwords, credentials - are sensitive and should never be submitted to the Github repository. They are therefore stored in a file called secrets.yml, which is being ignored by Github.
+
+Create the secrets.yml file
+
+        $ cp group_vars/secrets.yml.example group_vars/serets.yml
+
+Open the secrets.yml file and add the sensitive values.
+
+There are many ways to create random passwords/passphrases/salt, I prefer to use openssl for this task. You can replace 12 with a higher number for longer strings.
+
+        $ openssl rand -base64 12
+
+### Add your variables file among those to be read by the play book
+
+Edit the file identity_provider.yml and replace '<institution>' with your institution. This should be the same name you used when creating the variables file above, 
+forexample, if renu was used on the command "cp group_vars/template  group_vars/renu" It should be the one added
+	
+	$ vi identity_provider.yml
+
+### Run the playbook
+
+        $ ansible-playbook -i inventories/<institution> identity_provider.yml
+
+
+
+## Register on RIF Resource Registry
+
+RIF runs a resource registry at https://rif.renu.ac.ug/rr/
+
+* SSH into your IdP server
+* Copy the content of the IdP metadata file (/opt/shibboleth-idp/metadata/idp-metadata.xml) from your server and send it to systems@renu.ac.ug
+* This metadata file will be added to the RIF metadata
