@@ -51,8 +51,6 @@ Commands preceded by # are root privileged.
         $ git clone  https://github.com/renu256/eduID_IdentityProvider.git <institution>-idp
         $ cd <institution>-idp
 
-##  Use the scripts already available, the above step was left behind in respect to the initial creator of these scripts
-
 ### Inventory File
 
 Create the inventory file for your institution, for more information: http://docs.ansible.com/ansible/intro_inventory.html
