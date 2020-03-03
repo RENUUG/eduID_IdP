@@ -46,11 +46,10 @@ Commands preceded by # are root privileged.
 
 ## IdP Installation
 
-#Skip this part
-#* Clone the repository, replace <institution> with the actual name of your institution
-#
-#        $ git clone  https://github.com/mwotil/eduID_IdentityProvider.git <institution>-idp
-#        $ cd <institution>-idp
+* Clone the repository, replace <institution> with the actual name of your institution
+
+        $ git clone  https://github.com/renu256/eduID_IdentityProvider.git <institution>-idp
+        $ cd <institution>-idp
 
 ##  Use the scripts already available, the above step was left behind in respect to the initial creator of these scripts
 
