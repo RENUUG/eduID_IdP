@@ -1,9 +1,9 @@
-# Ansible Playbook for Shibboleth Identity Provider (IdP) Ubuntu 16.04
+# Ansible Playbook for Shibboleth Identity Provider (IdP) Ubuntu 16.04 and 18.04
 
 ## Prerequisites
 Ensure that the server has a FQDN in DNS and can be accessed from outside your LAN.
 Commands preceded by $ require normal user privileges and in most of the doc the ubuntu user.
-Commands preceded by # are root privileged. 
+Commands preceded by # are root privileged.
 
 ### Update the repos and other packages
       $ sudo apt-get update && sudo apt-get upgrade -y
@@ -42,13 +42,13 @@ Commands preceded by # are root privileged.
       $ sudo apt-get install software-properties-common
       $ sudo apt-add-repository ppa:ansible/ansible
       $ sudo apt-get update
-      $ sudo apt-get install ansible
+      $ sudo apt-get install ansible cowsay sshpass
 
 ## IdP Installation
 
 * Clone the repository, replace <institution> with the actual name of your institution
 
-        $ git clone  https://github.com/renu256/eduID_IdentityProvider.git <institution>-idp
+        $ git clone  https://github.com/RENUUG/eduID_IdP.git <institution>-idp
         $ cd <institution>-idp
 
 ### Inventory File
@@ -84,9 +84,9 @@ There are many ways to create random passwords/passphrases/salt, I prefer to use
 
 ### Add your variables file among those to be read by the play book
 
-Edit the file identity_provider.yml and replace '<institution>' with your institution. This should be the same name you used when creating the variables file above, 
+Edit the file identity_provider.yml and replace '<institution>' with your institution. This should be the same name you used when creating the variables file above,
 forexample, if renu was used on the command "cp group_vars/template  group_vars/renu" It should be the one added
-	
+
 	$ vi identity_provider.yml
 
 ### Run the playbook

@@ -4,6 +4,7 @@ postgres_version: 10
 openjdk_version: 8
 jre_version: openjdk-8-jdk
 # java_path: /usr/lib/jvm/{{ jre_version }}
+# java_path: /usr/bin/java  #Need a general java which can deal with all the changes
 java_path: /usr/lib/jvm/java-8-openjdk-amd64/jre
 
 # catalina_home: /usr/share/tomcat7

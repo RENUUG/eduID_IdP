@@ -18,8 +18,8 @@
     - group_vars/<institution>
   roles:
     - idp
-#    - webserver. All the others have been eliminated to focus only
-#    - db
+#    - webserver  #All the others have been eliminated to focus only on IdP
+#    - db      #They will be opened up soon, one after the other after testing them
 #    - appserver
 #    - idp
 
