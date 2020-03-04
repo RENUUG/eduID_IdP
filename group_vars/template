@@ -37,7 +37,7 @@ technical_email: eduid@example.net
 ## Backends ##
 
 ldap:
-  url: ldap.example.net
+  url: ldap.example.ac.ug
   use_ssl: false
   # ldap or ldaps
   protocol: ldap

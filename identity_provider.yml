@@ -10,7 +10,7 @@
         - "group_vars/distributions/{{ ansible_distribution }}.yml"
       tags: vars
 
-- name: Install Shibboleth IdP v3.4 on ubuntu 16 for RENU member institutions
+- name: Install Shibboleth IdP v3.4/v3.2 on ubuntu 16 for RENU member institutions
   hosts: idp
   become: True
   vars_files:
