@@ -59,7 +59,7 @@
 
 - name: Download eduGAIN Metadata Backup File(Big File, Please wait)
   get_url: >
-    url="http://edugain.cdn.samlbits.net"
+    url="https://rif.renu.ac.ug/renu_template/edugain-v1.xml"
     validate_certs=no
     dest={{ idp_home }}/metadata/edugain-metadata.xml
     owner={{ tomcat.user }}

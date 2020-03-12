@@ -3,6 +3,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/xenial64"
 
+  config.vm.hostname = "idp.test.renu.ac.ug"
+
   config.vm.network "public_network", ip: "196.43.159.38"
 
   #
