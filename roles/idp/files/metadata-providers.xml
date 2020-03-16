@@ -79,20 +79,20 @@
     </MetadataProvider>
 
 
-
     <MetadataProvider id="rifMetadata"
                       xsi:type="FileBackedHTTPMetadataProvider"
                       metadataURL="https://rif.renu.ac.ug/rr/signedmetadata/federation/RIF/metadata.xml"
-                      backingFile="/opt/shibboleth-idp/metadata/metadata.xml"
-                      disregardTLSCertificate="false" >
+                      backingFile="/opt/shibboleth-idp/metadata/metadata.xml" >
+                      <!-- DS commented this after the colon: disregardTLSCertificate="false" > -->
        <MetadataFilter  xsi:type="SignatureValidation"
             requireSignedRoot="true"
             certificateFile="/opt/shibboleth-idp/credentials/rif.crt" />
         <MetadataFilter xsi:type="RequiredValidUntil" maxValidityInterval="P14D"/>
 
+    <!--  Commented this to see if we can have t
         <MetadataFilter xsi:type="EntityRoleWhiteList">
             <RetainedRole>md:SPSSODescriptor</RetainedRole>
-        </MetadataFilter>
-    </MetadataProvider>          
-    
+        </MetadataFilter> -->
+    </MetadataProvider>             
+
 </MetadataProvider>
