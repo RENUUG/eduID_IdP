@@ -17,7 +17,6 @@
     - group_vars/secrets.yml
     - group_vars/<institution>
   roles:
-    - idp
     - webserver  #All the others had been commented out to focus only on IdP
     - db      #They will be opened up soon, one after the other after testing them
     - appserver
